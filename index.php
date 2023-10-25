@@ -18,20 +18,26 @@ $db = new mysqli('localhost:8889', 'root', 'root', 'mydb');
         <input type="text" name="list">
         <button type="submit">保存</button>
     </form>
+
+
     <h2>保存されたTodo</h2>
     <?php
     $list = filter_input(INPUT_POST, 'list', FILTER_SANITIZE_SPECIAL_CHARS);
-    $stmt = $db->prepare('insert into lists(list) values(?)');
-    $stmt->bind_param('s', $list);
-    $ret = $stmt->execute();
-
+    if ($list !== null) {
+        $stmt = $db->prepare('insert into lists(list) values(?)');
+        $stmt->bind_param('s', $list);
+        $ret = $stmt->execute();
+    }
     ?>
 
     <?php $lists = $db->query('select * from lists order by id desc'); ?>
     <?php while ($list = $lists->fetch_assoc()) : ?>
-        <p><?php echo htmlspecialchars($list['list'] ?? ''); ?></p>
+        <form method="post">
+            <input type="text" value="<?php echo htmlspecialchars($list['list'] ?? ''); ?>">
+            <input type="hidden" name="list_id" value="<?php echo $list['id']; ?>">
+            <input type="submit" value="編集">
+        </form>
     <?php endwhile; ?>
-
 </body>
 
 </html>
