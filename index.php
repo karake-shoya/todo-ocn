@@ -32,12 +32,20 @@ $db = new mysqli('localhost:8889', 'root', 'root', 'mydb');
 
     <?php $lists = $db->query('select * from lists order by id desc'); ?>
     <?php while ($list = $lists->fetch_assoc()) : ?>
-        <form method="post" action="update_list.php">
-            <input type="text" name="list_item" value="<?php echo htmlspecialchars($list['list'] ?? ''); ?>">
-            <input type="hidden" name="list_id" value="<?php echo $list['id']; ?>">
-            <input type="submit" value="編集">
-        </form>
+        <div>
+            <form method="post" action="update_list.php" style="display:inline-block">
+                <input type="text" name="list_item" value="<?php echo htmlspecialchars($list['list'] ?? ''); ?>">
+                <input type="hidden" name="list_id" value="<?php echo $list['id']; ?>">
+                <button type="submit">編集</button>
+            </form>
+
+            <form method="post" action="delete.php" style="display:inline-block">
+                <input type="hidden" name="list_id" value="<?php echo $list['id']; ?>">
+                <button type="submit">削除</button>
+            </form>
+        </div>
     <?php endwhile; ?>
+
 </body>
 
 </html>

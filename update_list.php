@@ -46,6 +46,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // データベース接続をクローズ
     $db->close();
-
-    header('Location: index.php');
 }
