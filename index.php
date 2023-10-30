@@ -2,6 +2,7 @@
 $db = new mysqli('localhost:8889', 'root', 'root', 'mydb');
 ?>
 
+<link rel="stylesheet" href="style.css">
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -13,12 +14,11 @@ $db = new mysqli('localhost:8889', 'root', 'root', 'mydb');
 </head>
 
 <body>
+    <h1>Simple Todo App</h1>
     <form method="post">
-        <h1>Simple Todo App</h1>
         <input type="text" name="list">
         <button type="submit">保存</button>
     </form>
-
 
     <h2>保存されたTodo</h2>
     <?php
@@ -32,14 +32,14 @@ $db = new mysqli('localhost:8889', 'root', 'root', 'mydb');
 
     <?php $lists = $db->query('select * from lists order by id desc'); ?>
     <?php while ($list = $lists->fetch_assoc()) : ?>
-        <div>
-            <form method="post" action="update_list.php" style="display:inline-block">
+        <div class="memo">
+            <form method="post" action="update_list.php">
                 <input type="text" name="list_item" value="<?php echo htmlspecialchars($list['list'] ?? ''); ?>">
                 <input type="hidden" name="list_id" value="<?php echo $list['id']; ?>">
                 <button type="submit">編集</button>
             </form>
 
-            <form method="post" action="delete.php" style="display:inline-block">
+            <form method="post" action="delete.php">
                 <input type="hidden" name="list_id" value="<?php echo $list['id']; ?>">
                 <button type="submit">削除</button>
             </form>
